@@ -1,0 +1,34 @@
+.exam-card {
+    width: 180px;
+    height: 200px;
+    background: $secondary;
+    border-radius: 10px;
+    border: 1px solid $primary;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    position: relative;
+    cursor: pointer;
+
+    &-header {
+        font-weight: 700;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-transform: uppercase;
+    }
+    hr {
+        margin: 5px 0;
+        color: $primary;
+    }
+
+    &-icon {
+        position: absolute;
+        right: 5%;
+        bottom: 5%;
+
+    }
+}

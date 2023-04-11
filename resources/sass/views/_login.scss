@@ -1,0 +1,29 @@
+.login-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 100%;
+
+    img {
+        padding: 20px 100px;
+    }
+
+    @media screen and (max-width: 600px) {
+        position: relative;
+        height: 100%;
+        transform: none;
+        top: 0;
+        left: 0;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .card-body {
+            width: 100%;
+        }
+    }
+}
