@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['showSidebar' => false, 'showNavbar' => false])
 
 @section('content')
 <div class="position-relative h-100">

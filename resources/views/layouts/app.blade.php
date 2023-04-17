@@ -16,12 +16,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Avenir:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/swiper.js'])
 </head>
 <body>
-    @yield('navbar')
-    <main class="p-4">
-        @yield('content')
-    </main>
+    <div class="h-100 w-100 d-flex flex-row">
+        @if($showSidebar ?? false)
+            @include('components.sidebar')
+        @endif
+        <div @class($showSidebar ? ['d-flex flex-column h-100 body-with-sidebar'] : ['d-flex w-100 h-100 flex-column'])>
+            @if($showNavbar ?? false)
+                @include('components.navbar')
+            @endif
+
+            <div class="p-4 w-100 h-100">
+                @yield('content')
+            </div>
+        </div>
+    </div>
 </body>
 </html>

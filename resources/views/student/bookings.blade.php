@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('navbar')
-    @include('components.navbar')
-@endsection
+@extends('layouts.app', ['showNavbar' => true, 'showSidebar' => true])
 
 @section('content')
 
