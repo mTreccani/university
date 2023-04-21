@@ -19,4 +19,9 @@ class TeacherController extends Controller
     {
         return view('teacher/dashboard');
     }
+
+    public function exam(): Renderable
+    {
+        return view('teacher/exam');
+    }
 }

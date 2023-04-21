@@ -3,7 +3,7 @@
      tabindex="-1"
      id="offcanvas"
 >
-    <div class="d-flex justify-content-end p-3">
+    <div class="d-flex justify-content-end p-3 d-md-none">
         <button type="button" class="btn-close text-reset d-md-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -19,6 +19,9 @@
         <a class="offcanvas-item" href="{{ route('student.dashboard', 'A') }}">Dashboard</a>
         <a class="offcanvas-item" href="{{ route('student.career', 'A') }}">Career</a>
         <a class="offcanvas-item" href="{{ route('student.bookings', 'A') }}">Bookings</a>
+
+        <a class="offcanvas-item" href="{{ route('teacher.dashboard', 'A') }}">Dashboard</a>
+        <a class="offcanvas-item" href="{{ route('teacher.exam', 'A') }}">Exam</a>
     </div>
 </div>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +28,10 @@ Route::controller(StudentController::class)->prefix('student/{id}')->group(funct
 });
 
 Route::controller(TeacherController::class)->prefix('teacher/{id}')->group(function () {
-    Route::get('/', 'index');
+    Route::get('/', 'index')->name('teacher.dashboard');
+    Route::get('/exam', 'exam')->name('teacher.exam');
 });
 
-\Illuminate\Support\Facades\Auth::routes();
+Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
