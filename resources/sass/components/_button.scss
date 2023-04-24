@@ -6,3 +6,13 @@
     text-transform: capitalize;
     border: none;
 }
+
+.icon-button {
+    border: none;
+    background: none;
+    padding: 5px;
+    img {
+        width: 24px;
+        height: 24px;
+    }
+}

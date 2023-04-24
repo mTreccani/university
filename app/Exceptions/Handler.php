@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,5 +46,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response|\Illuminate\Http\RedirectResponse
+    {
+        if (!$e instanceof NotFoundHttpException) {
+            return parent::render($request, $e);
+        }
+
+        return redirect()->route('login');
+
+//        $user = Auth::user();
+//        if ($user && $user->isStudent()) {
+//            return redirect()->route('student.dashboard', ['id' => $user->id]);
+//        } else if ($user && $user->isTeacher()) {
+//            return redirect()->route('teacher.dashboard', ['id' => $user->id]);
+//        } else {
+//            return redirect()->route('login');
+//        }
     }
 }

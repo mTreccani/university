@@ -8,13 +8,13 @@
     </div>
     <div class="offcanvas-body">
         <div class="offcanvas-user">
-            <div class="offcanvas-user-image">
-                <img src="{{ asset('images/logo.svg') }}" alt="Logo" />
-            </div>
-            <div class="offcanvas-user-name">
-                <span class="fw-bold">Matteo Treccani</span>
-                <a href="{{ route('login') }}" class="text-sm">Logout</a>
-            </div>
+            <span class="fw-bold">{{ auth()->user()->fullName() }}</span>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button class="icon-button" type="submit">
+                    <img src="{{ asset('icons/logout.svg') }}" alt="logout">
+                </button>
+            </form>
         </div>
         <a class="offcanvas-item" href="{{ route('student.dashboard', 'A') }}">Dashboard</a>
         <a class="offcanvas-item" href="{{ route('student.career', 'A') }}">Career</a>

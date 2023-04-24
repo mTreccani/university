@@ -12,7 +12,8 @@ class TeacherController extends Controller
      * @return void
      */
     public function __construct() {
-//        $this->middleware('auth');
+        $this->middleware('auth');
+        $this->middleware('is_teacher');
     }
 
     public function index(): Renderable

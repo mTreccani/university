@@ -8,36 +8,29 @@
 
     <div class="swiper mb-5 mt-4">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="exam-card">
-                    <div class="exam-card-header">
-                        Programmazione web e servizi digitali
+            @foreach($courses as $course)
+                <div class="swiper-slide">
+                    <div class="exam-card">
+                        <div class="exam-card-header">
+                            {{ $course->name }}
+                        </div>
+                        <hr />
+                        <div class="d-flex flex-row align-items-center">
+                            <span class="fw-light text-sm me-1">Anno:</span>
+                            <div class="text-lg text-primary fw-bold">{{ $course->year }}</div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                            <span class="fw-light text-sm me-1">Semestre:</span>
+                            <div class="text-lg text-primary fw-bold">{{ $course->semester }}</div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                            <span class="fw-light text-sm me-1">Crediti:</span>
+                            <div class="text-lg text-primary fw-bold">{{ $course->credits }}</div>
+                        </div>
+                        <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
                     </div>
-                    <hr />
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="fw-light text-sm me-1">Anno:</span>
-                        <div class="text-lg text-primary fw-bold">1</div>
-                    </div>
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="fw-light text-sm me-1">Semestre:</span>
-                        <div class="text-lg text-primary fw-bold">2</div>
-                    </div>
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="fw-light text-sm me-1">Crediti:</span>
-                        <div class="text-lg text-primary fw-bold">6</div>
-                    </div>
-                    <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
                 </div>
-            </div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-
+            @endforeach
         </div>
         <!-- If we need pagination -->
         <div class="swiper-pagination"></div>

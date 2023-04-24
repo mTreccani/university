@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Exam;
 use Illuminate\Contracts\Support\Renderable;
 
 class StudentController extends Controller
@@ -13,13 +15,18 @@ class StudentController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('auth');
+        $this->middleware('auth');
+        $this->middleware('is_student');
     }
 
 
     public function index(): Renderable
     {
-        return view('student/dashboard');
+        $courses = Course::all();
+
+        return view('student/dashboard', [
+            'courses' => $courses,
+        ]);
     }
 
     public function booking(): Renderable
