@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
+use App\Models\Exam;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +12,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ExamFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string
+     */
+    protected $model = Exam::class;
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -17,7 +26,13 @@ class ExamFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'course_id' => Course::where('id', '>', 0)->inRandomOrder()->first()->id,
+            'description' => fake()->text(50),
+            'date' => fake()->dateTimeBetween('+2 month', '+3 month'),
+            'duration' => fake()->time(),
+            'booking_start_time' => fake()->dateTimeBetween('', '+1 month'),
+            'booking_end_time' => fake()->dateTimeBetween('+1 month', '+2 month'),
+            'room' => fake()->text(5),
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\UserExam;
 use Illuminate\Database\Seeder;
 
 class UserExamSeeder extends Seeder
@@ -12,6 +12,6 @@ class UserExamSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        UserExam::factory()->count(10)->create();
     }
 }

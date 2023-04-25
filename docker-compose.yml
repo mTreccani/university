@@ -1,6 +1,7 @@
 version: '3'
 services:
     laravel.test:
+        container_name: university_sail
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile
@@ -24,6 +25,7 @@ services:
         depends_on:
             - pgsql
     pgsql:
+        container_name: university_pgsql
         image: 'postgres:15'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
@@ -33,7 +35,7 @@ services:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
+            - './sail-pgsql:/var/lib/postgresql/data'
             - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail

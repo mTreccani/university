@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
+use App\Models\User;
+use App\Models\UserCourse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +13,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class UserCourseFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string
+     */
+    protected $model = UserCourse::class;
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -17,7 +27,8 @@ class UserCourseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::where('id', '>', 0)->inRandomOrder()->first()->id,
+            'course_id' => Course::where('id', '>', 0)->inRandomOrder()->first()->id,
         ];
     }
 }

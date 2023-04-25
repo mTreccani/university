@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
+            $table->string("description");
             $table->unsignedBigInteger("course_id");
             $table->date("date");
-            $table->time("start_time");
+            $table->time("duration", 0);
             $table->date("booking_start_time");
             $table->date("booking_end_time");
             $table->string("room");
