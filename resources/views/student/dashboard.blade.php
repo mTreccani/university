@@ -58,14 +58,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Programmazione web e servizi digitali</td>
-                <td class="d-none d-md-table-cell">Prova di Laboratorio di Progr. Web</td>
-                <td class="text-center">15/06/2023</td>
-                <td class="d-none d-md-table-cell text-center">15/06/2023</td>
-                <td class="d-none d-md-table-cell text-center">15/06/2023</td>
-                <td class="text-center"><img class="cursor-pointer" src="{{ asset('icons/calendar.svg') }}" onclick="console.log('click')" /></td>
-            </tr>
+            @foreach($exams as $exam)
+                <tr>
+                    <td>{{ $exam->course_name }}</td>
+                    <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
+                    <td class="text-center">{{ $exam->date }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_start_time }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_end_time }}</td>
+                    <td class="text-center"><img class="cursor-pointer" src="{{ asset('icons/calendar.svg') }}" onclick="console.log('click')" /></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 

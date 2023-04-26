@@ -30,8 +30,8 @@ class ExamFactory extends Factory
             'description' => fake()->text(50),
             'date' => fake()->dateTimeBetween('+2 month', '+3 month'),
             'duration' => fake()->time(),
-            'booking_start_time' => fake()->dateTimeBetween('', '+1 month'),
-            'booking_end_time' => fake()->dateTimeBetween('+1 month', '+2 month'),
+            'booking_start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'booking_end_date' => fake()->dateTimeBetween('+1 month', '+2 month'),
             'room' => fake()->text(5),
         ];
     }

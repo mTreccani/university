@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger("course_id");
             $table->date("date");
             $table->time("duration", 0);
-            $table->date("booking_start_time");
-            $table->date("booking_end_time");
+            $table->date("booking_start_date");
+            $table->date("booking_end_date");
             $table->string("room");
             $table->timestamps();
 

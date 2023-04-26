@@ -26,12 +26,13 @@ class UserExamFactory extends Factory
      */
     public function definition(): array
     {
-        $examId = Exam::where('id', '>', 0)->inRandomOrder()->first()->id;
+        $userId = User::where('id', '>', 0)->inRandomOrder()->first()->id;
+        $examId = Exam::join('user_courses', 'exams.course_id', '=', 'user_courses.course_id')
+            ->where('user_id', '=', $userId)->inRandomOrder()->first()->id;
         return [
-            'user_id' => User::where('id', '>', 0)->inRandomOrder()->first()->id,
+            'user_id' => $userId,
             'exam_id' => $examId,
             'grade' => fake()->optional()->numberBetween(18, 30),
-            'booking_number' => UserExam::where('exam_id', '=', $examId)->count() + 1,
         ];
     }
 }

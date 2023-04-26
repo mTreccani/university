@@ -22,10 +22,20 @@ class StudentController extends Controller
 
     public function index(): Renderable
     {
-        $courses = Course::all();
+        //FIXME: Fix queries
+        $courses = Course::join('user_courses', 'courses.id', '=', 'user_courses.course_id')
+            ->where('user_courses.user_id', auth()->user()->id)
+            ->get();
+
+        $exams = Exam::join('user_exams', 'exams.id', '=', 'user_exams.exam_id')
+            ->join('courses', 'exams.course_id', '=', 'courses.id')
+            ->select('exams.*', 'courses.name as course_name')
+            ->where('user_exams.user_id', auth()->user()->id)
+            ->get();
 
         return view('student/dashboard', [
             'courses' => $courses,
+            'exams' => $exams
         ]);
     }
 

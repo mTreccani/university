@@ -26,9 +26,24 @@ class UserCourseFactory extends Factory
      */
     public function definition(): array
     {
+        $userCount = User::all()->count();
+        $courseCount = Course::all()->count();
+
+        $userCourses = [];
+        for ($i = 1; $i <= $userCount; $i++) {
+            for ($j = 1; $j <= $courseCount; $j++) {
+                $userCourses[] = $i . "-" . $j;
+            }
+        }
+
+        $userAndCourse = fake()->unique()->randomElement($userCourses);
+        $userAndCourse = explode('-', $userAndCourse);
+        $userId = $userAndCourse[0];
+        $courseId = $userAndCourse[1];
+
         return [
-            'user_id' => User::where('id', '>', 0)->inRandomOrder()->first()->id,
-            'course_id' => Course::where('id', '>', 0)->inRandomOrder()->first()->id,
+            'user_id' => $userId,
+            'course_id' => $courseId,
         ];
     }
 }

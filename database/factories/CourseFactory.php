@@ -25,14 +25,15 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
+        $year = now()->year;
         return [
             'name' => fake()->jobTitle(),
             'formative_objectives' => fake()->paragraph(),
             'prerequisites' => fake()->paragraph(),
             'course_schedule' => fake()->paragraph(),
-            'year' => fake()->year(),
-            'semester' => fake()->randomElement(['1', '2']),
-            'credits' => fake()->randomElement(['6', '9', '12']),
+            'year' => fake()->randomElement([$year-1, $year, $year+1]),
+            'semester' => fake()->randomElement([1, 2]),
+            'credits' => fake()->randomElement([6, 9, 12]),
         ];
     }
 }
