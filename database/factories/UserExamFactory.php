@@ -26,9 +26,21 @@ class UserExamFactory extends Factory
      */
     public function definition(): array
     {
-        $userId = User::where('id', '>', 0)->inRandomOrder()->first()->id;
-        $examId = Exam::join('user_courses', 'exams.course_id', '=', 'user_courses.course_id')
-            ->where('user_id', '=', $userId)->inRandomOrder()->first()->id;
+        $userCount = User::all()->count();
+        $examCount = Exam::join('user_courses', 'exams.course_id', '=', 'user_courses.course_id')->count();
+
+        $userExams = [];
+        for ($i = 1; $i <= $userCount; $i++) {
+            for ($j = 1; $j <= $examCount; $j++) {
+                $userExams[] = $i . "-" . $j;
+            }
+        }
+
+        $userAndExam = fake()->unique()->randomElement($userExams);
+        $userAndExam = explode('-', $userAndExam);
+        $userId = $userAndExam[0];
+        $examId = $userAndExam[1];
+
         return [
             'user_id' => $userId,
             'exam_id' => $examId,

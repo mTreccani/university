@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\UserCourse;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserCourseSeeder extends Seeder
@@ -13,6 +12,6 @@ class UserCourseSeeder extends Seeder
      */
     public function run(): void
     {
-        UserCourse::factory()->count(20)->create();
+        UserCourse::factory()->count(30)->create();
     }
 }

@@ -12,6 +12,6 @@ class UserExamSeeder extends Seeder
      */
     public function run(): void
     {
-        UserExam::factory()->count(10)->create();
+        UserExam::factory()->count(5)->create();
     }
 }

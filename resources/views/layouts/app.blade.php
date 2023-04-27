@@ -20,15 +20,12 @@
 </head>
 <body>
     <div class="h-100 w-100 d-flex flex-row">
-        @if($showSidebar ?? false)
-            @include('components.sidebar')
-        @endif
-        <div @class($showSidebar ? ['d-flex flex-column h-100 body-with-sidebar'] : ['d-flex w-100 h-100 flex-column'])>
+        <div class="d-flex w-100 h-100 flex-column">
             @if($showNavbar ?? false)
                 @include('components.navbar')
             @endif
 
-            <div class="p-4 w-100 h-100">
+            <div class="p-4 w-100 h-100 overflow-auto">
                 @yield('content')
             </div>
         </div>

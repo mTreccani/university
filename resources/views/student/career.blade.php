@@ -2,9 +2,16 @@
 
 @section('content')
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Carriera') }}</li>
+        </ol>
+    </nav>
+
     @include(
         'components.section_title',
-        ['title' => 'La tua carriera', 'link' => null, 'linkTitle' => null]
+        ['title' => 'La tua carriera']
     )
 
     <table class="table border-primary mt-4 table-bordered">

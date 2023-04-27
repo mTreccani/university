@@ -11,13 +11,12 @@
     cursor: pointer;
 
     &-header {
+        word-wrap: break-word;
         font-weight: 700;
         overflow: hidden;
         text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
+        line-height: 1.25rem;
+        height: 2.5rem;
         text-transform: uppercase;
     }
     hr {

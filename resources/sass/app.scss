@@ -13,7 +13,6 @@
 @import "components/navbar";
 @import "components/table";
 @import "components/button";
-@import "components/sidebar";
 
 
 html, body {
@@ -22,14 +21,6 @@ html, body {
     height: 100%;
     width: 100%;
     overflow: hidden;
-}
-
-.body-with-sidebar {
-    width: calc(100% - 250px);
-
-    @media screen and (max-width: 768px) {
-        width: 100%;
-    }
 }
 
 label {

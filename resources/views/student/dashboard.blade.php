@@ -63,9 +63,15 @@
                     <td>{{ $exam->course_name }}</td>
                     <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
                     <td class="text-center">{{ $exam->date }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_start_time }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_end_time }}</td>
-                    <td class="text-center"><img class="cursor-pointer" src="{{ asset('icons/calendar.svg') }}" onclick="console.log('click')" /></td>
+                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_start_date }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_end_date }}</td>
+                    <td class="text-center">
+                        @if($exam->booked)
+                            <img src="{{ asset('icons/check.svg') }}" alt="booked" />
+                        @else
+                            <img class="cursor-pointer" src="{{ asset('icons/calendar.svg') }}" onclick="console.log('{{$exam->booked}}')" />
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>

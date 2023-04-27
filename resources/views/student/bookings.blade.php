@@ -2,10 +2,14 @@
 
 @section('content')
 
-    @include(
-        'components.section_title',
-        ['title' => 'Lista prenotazioni', 'link' => null, 'linkTitle' => null]
-    )
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Lista prenotazioni') }}</li>
+        </ol>
+    </nav>
+
+    <x-section_title showBackButton="true">TITLE</x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">

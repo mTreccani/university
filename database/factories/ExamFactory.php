@@ -26,7 +26,7 @@ class ExamFactory extends Factory
     public function definition(): array
     {
         return [
-            'course_id' => Course::where('id', '>', 0)->inRandomOrder()->first()->id,
+            'course_id' => Course::inRandomOrder()->first()->id,
             'description' => fake()->text(50),
             'date' => fake()->dateTimeBetween('+2 month', '+3 month'),
             'duration' => fake()->time(),

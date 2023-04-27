@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Exam;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -22,15 +23,22 @@ class StudentController extends Controller
 
     public function index(): Renderable
     {
-        //FIXME: Fix queries
         $courses = Course::join('user_courses', 'courses.id', '=', 'user_courses.course_id')
+            ->leftJoin('exams', 'courses.id', '=', 'exams.course_id')
+            ->leftJoin('user_exams', 'exams.id', '=', 'user_exams.exam_id')
             ->where('user_courses.user_id', auth()->user()->id)
+            ->where('user_exams.grade', '=', null)
+            ->orWhere('user_exams.grade', '<', 18)
+            ->select('courses.*')
+            ->orderBy('courses.year')
             ->get();
 
-        $exams = Exam::join('user_exams', 'exams.id', '=', 'user_exams.exam_id')
-            ->join('courses', 'exams.course_id', '=', 'courses.id')
-            ->select('exams.*', 'courses.name as course_name')
-            ->where('user_exams.user_id', auth()->user()->id)
+        $exams = Exam::join('courses', 'exams.course_id', '=', 'courses.id')
+            ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
+            ->leftJoin('user_exams', 'exams.id', '=', 'user_exams.exam_id')
+            ->select('exams.*', 'courses.name as course_name', DB::raw('CASE WHEN user_exams.id IS NOT NULL THEN 1 ELSE 0 END as booked'))
+            ->where('user_courses.user_id', auth()->user()->id)
+            ->orderBy('exams.date')
             ->get();
 
         return view('student/dashboard', [
