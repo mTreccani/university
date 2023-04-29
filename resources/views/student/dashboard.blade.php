@@ -1,10 +1,13 @@
-@extends('layouts.app', ['showNavbar' => true, 'showSidebar' => true])
+@php
+    include(app_path('Helpers/helpers.php'));
+@endphp
+
+@extends('layouts.app', ['showNavbar' => true])
 
 @section('content')
-    @include(
-        'components.section_title',
-        ['title' => 'Esami da svolgere', 'link' => route('student.career', 'A'), 'linkTitle' => 'Piano carriera']
-    )
+    <x-section_title link="{{ route('student.career') }}" linkTitle="{{ __('Piano carriera') }}">
+        {{ __('I miei corsi') }}
+    </x-section_title>
 
     <div class="swiper mb-5 mt-4">
         <div class="swiper-wrapper">
@@ -41,10 +44,9 @@
 
     </div>
 
-    @include(
-        'components.section_title',
-        ['title' => 'Appelli', 'link' => route('student.bookings', 'A'), 'linkTitle' => 'Lista prenotazioni']
-    )
+    <x-section_title link="{{ route('student.bookings') }}" linkTitle="{{ __('Lista prenotazioni') }}">
+        {{ __('Lista prenotazioni') }}
+    </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
@@ -62,14 +64,17 @@
                 <tr>
                     <td>{{ $exam->course_name }}</td>
                     <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
-                    <td class="text-center">{{ $exam->date }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_start_date }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ $exam->booking_end_date }}</td>
+                    <td class="text-center">{{ format_date($exam->date) }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_start_date) }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_end_date) }}</td>
                     <td class="text-center">
                         @if($exam->booked)
                             <img src="{{ asset('icons/check.svg') }}" alt="booked" />
                         @else
-                            <img class="cursor-pointer" src="{{ asset('icons/calendar.svg') }}" onclick="console.log('{{$exam->booked}}')" />
+                            <img class="cursor-pointer"
+                                 src="{{ asset('icons/calendar.svg') }}"
+                                 onclick="console.log('{{$exam->booked}}')"
+                            />
                         @endif
                     </td>
                 </tr>

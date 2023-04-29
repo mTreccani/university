@@ -1,4 +1,4 @@
-@extends('layouts.app', ['showNavbar' => true, 'showSidebar' => true])
+@extends('layouts.app', ['showNavbar' => true])
 
 @section('content')
 
@@ -9,26 +9,30 @@
         </ol>
     </nav>
 
-    <x-section_title showBackButton="true">TITLE</x-section_title>
+    <x-section_title backRoute="{{ route('student.dashboard') }}">
+        {{ __('Lista prenotazioni') }}
+    </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
-        <tr>
-            <th>{{ __('Attività') }}</th>
-            <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
-            <th class="text-center">{{ __('Data') }}</th>
-            <th class="text-center">{{ __('Aula') }}</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>{{ __('Attività') }}</th>
+                <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
+                <th class="text-center">{{ __('Data') }}</th>
+                <th class="text-center">{{ __('Aula') }}</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Programmazione web e servizi digitali</td>
-            <td class="d-none d-md-table-cell">Prova di Laboratorio di Progr. Web</td>
-            <td class="text-center">01/01/2001</td>
-            <td class="text-center">N1</td>
-            <td class="text-center"><img src="{{ asset('icons/delete.svg') }}" /></td>
-        </tr>
+            @foreach($exams as $exam)
+                <tr>
+                    <td>{{ $exam->course_name }}</td>
+                    <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
+                    <td class="text-center">{{ $exam->date }}</td>
+                    <td class="text-center">{{ $exam->room }}</td>
+                    <td class="text-center"><img src="{{ asset('icons/delete.svg') }}" /></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 

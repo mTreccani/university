@@ -27,12 +27,17 @@ class UserExamFactory extends Factory
     public function definition(): array
     {
         $userCount = User::all()->count();
-        $examCount = Exam::join('user_courses', 'exams.course_id', '=', 'user_courses.course_id')->count();
 
         $userExams = [];
         for ($i = 1; $i <= $userCount; $i++) {
-            for ($j = 1; $j <= $examCount; $j++) {
-                $userExams[] = $i . "-" . $j;
+
+            $exams = Exam::join('user_courses', 'exams.course_id', '=', 'user_courses.course_id')
+                ->where('user_courses.user_id', '=', $i)
+                ->select('exams.id')
+                ->get();
+
+            for ($j = 1; $j <= count($exams); $j++) {
+                $userExams[] = $i . "-" . $exams[$j - 1]->id;
             }
         }
 

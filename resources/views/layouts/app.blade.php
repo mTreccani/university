@@ -1,3 +1,5 @@
+@props(['showNavbar' => false])
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -21,8 +23,8 @@
 <body>
     <div class="h-100 w-100 d-flex flex-row">
         <div class="d-flex w-100 h-100 flex-column">
-            @if($showNavbar ?? false)
-                @include('components.navbar')
+            @if($showNavbar)
+                <x-navbar></x-navbar>
             @endif
 
             <div class="p-4 w-100 h-100 overflow-auto">

@@ -1,14 +1,13 @@
-@props(['showBackButton' => false, 'link' => null, 'linkTitle' => null])
+@props(['backRoute' => null, 'link' => null, 'linkTitle' => null])
 
 <div class="border-bottom d-flex flex-row justify-content-between align-items-baseline border-primary">
-    <div class="d-flex flex-row align-items-center">
-        @if($showBackButton)
-            <a href="{{ url()->previous() }}" class="link-primary text-decoration-none">
+    <div class="d-flex flex-row align-items-center mb-2">
+        @if(isset($backRoute))
+            <a href="{{ $backRoute }}" class="icon-button-border me-2">
                 <img src="{{ asset('icons/chevron_left.svg') }}">
-                {{ __('Indietro') }}
             </a>
         @endif
-        <h3 class="text-primary fw-bold">{{ $slot ?? '' }}</h3>
+        <h3 class="text-primary fw-bold m-0">{{ $slot ?? '' }}</h3>
     </div>
     @if(isset($link) && isset($linkTitle))
         <a href="{{ $link }}" class="link-primary text-decoration-none">

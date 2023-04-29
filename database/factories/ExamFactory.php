@@ -25,8 +25,12 @@ class ExamFactory extends Factory
      */
     public function definition(): array
     {
+
+        $courses = Course::all();
+        $courseId = fake()->unique()->randomElement($courses)->id;
+
         return [
-            'course_id' => Course::inRandomOrder()->first()->id,
+            'course_id' => $courseId,
             'description' => fake()->text(50),
             'date' => fake()->dateTimeBetween('+2 month', '+3 month'),
             'duration' => fake()->time(),
