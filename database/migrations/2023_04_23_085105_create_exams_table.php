@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("description");
             $table->unsignedBigInteger("course_id");
-            $table->date("date");
+            $table->dateTime("date");
             $table->time("duration", 0);
             $table->date("booking_start_date");
             $table->date("booking_end_date");

@@ -20,8 +20,10 @@ Auth::routes(['login'=>true, 'logout'=>true]);
 
 Route::controller(StudentController::class)->prefix('student')->group(function () {
     Route::get('/', 'index')->name('student.dashboard');
-    Route::get('/bookings', 'booking')->name('student.bookings');
     Route::get('/career', 'career')->name('student.career');
+    Route::get('/exams', 'exams')->name('student.exams');
+    Route::post('/exams/{id}', 'bookExam')->name('student.exams.book');
+    Route::delete('/exams/{id}', 'deleteExamBooking')->name('student.exams.delete');
 });
 
 Route::controller(TeacherController::class)->prefix('teacher}')->group(function () {

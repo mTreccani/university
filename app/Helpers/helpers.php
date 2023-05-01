@@ -2,7 +2,14 @@
 
     use Carbon\Carbon;
 
-    function format_date($date, $format = 'd/m/Y')
-    {
-        return Carbon::parse($date)->format($format);
+    function format_date($date) {
+        return Carbon::parse($date)->format('d/m/Y');
+    }
+
+    function format_time($date) {
+        return Carbon::parse($date)->format('H:i');
+    }
+
+    function format_date_time($date) {
+        return Carbon::parse($date)->format('d/m/Y H:i');
     }

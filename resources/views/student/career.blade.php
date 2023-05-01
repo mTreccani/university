@@ -5,12 +5,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('La tua carriera') }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('La mia carriera') }}</li>
         </ol>
     </nav>
 
     <x-section_title backRoute="{{ route('student.dashboard') }}">
-        {{ __('La tua carriera') }}
+        {{ __('La mia carriera') }}
     </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">

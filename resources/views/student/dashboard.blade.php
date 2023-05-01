@@ -5,7 +5,7 @@
 @extends('layouts.app', ['showNavbar' => true])
 
 @section('content')
-    <x-section_title link="{{ route('student.career') }}" linkTitle="{{ __('Piano carriera') }}">
+    <x-section_title link="{{ route('student.career') }}" linkTitle="{{ __('La mia carriera') }}">
         {{ __('I miei corsi') }}
     </x-section_title>
 
@@ -44,8 +44,8 @@
 
     </div>
 
-    <x-section_title link="{{ route('student.bookings') }}" linkTitle="{{ __('Lista prenotazioni') }}">
-        {{ __('Lista prenotazioni') }}
+    <x-section_title link="{{ route('student.exams') }}" linkTitle="{{ __('Lista esami') }}">
+        {{ __('Le mie prenotazioni') }}
     </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
@@ -54,9 +54,8 @@
                 <th>{{ __('Attività') }}</th>
                 <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
                 <th class="text-center">{{ __('Data') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Inizio iscrizioni') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Fine iscrizioni') }}</th>
-                <th></th>
+                <th class="text-center">{{ __('Aula') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('Durata') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -64,19 +63,9 @@
                 <tr>
                     <td>{{ $exam->course_name }}</td>
                     <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
-                    <td class="text-center">{{ format_date($exam->date) }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_start_date) }}</td>
-                    <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_end_date) }}</td>
-                    <td class="text-center">
-                        @if($exam->booked)
-                            <img src="{{ asset('icons/check.svg') }}" alt="booked" />
-                        @else
-                            <img class="cursor-pointer"
-                                 src="{{ asset('icons/calendar.svg') }}"
-                                 onclick="console.log('{{$exam->booked}}')"
-                            />
-                        @endif
-                    </td>
+                    <td class="text-center">{{ format_date_time($exam->date) }}</td>
+                    <td class="text-center">{{ $exam->room }}</td>
+                    <td class="d-none d-md-table-cell text-center">{{ format_time($exam->duration) }}</td>
                 </tr>
             @endforeach
         </tbody>
