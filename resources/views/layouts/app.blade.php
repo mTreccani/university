@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Avenir:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/swiper.js', 'resources/js/student_exams.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/swiper.js'])
 </head>
 <body>
     <div class="h-100 w-100 d-flex flex-row">
@@ -27,6 +27,9 @@
                 <x-navbar></x-navbar>
             @endif
 
+            <div class="w-100 px-4 sticky-top bg-body">
+                @yield('sticky-top')
+            </div>
             <div class="p-4 w-100 h-100 overflow-auto">
                 @yield('content')
             </div>

@@ -1,7 +1,6 @@
 @extends('layouts.app', ['showNavbar' => true])
 
-@section('content')
-
+@section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
@@ -12,6 +11,9 @@
     <x-section_title backRoute="{{ route('student.dashboard') }}">
         {{ __('La mia carriera') }}
     </x-section_title>
+@endsection
+
+@section('content')
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">

@@ -24,6 +24,7 @@ Route::controller(StudentController::class)->prefix('student')->group(function (
     Route::get('/exams', 'exams')->name('student.exams');
     Route::post('/exams/{id}', 'bookExam')->name('student.exams.book');
     Route::delete('/exams/{id}', 'deleteExamBooking')->name('student.exams.delete');
+    Route::get('/courses/{id}', 'course')->name('student.course');
 });
 
 Route::controller(TeacherController::class)->prefix('teacher}')->group(function () {

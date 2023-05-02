@@ -4,8 +4,7 @@
 
 @extends('layouts.app', ['showNavbar' => true])
 
-@section('content')
-
+@section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
@@ -16,6 +15,9 @@
     <x-section_title backRoute="{{ route('student.dashboard') }}">
         {{ __('Lista esami') }}
     </x-section_title>
+@endsection
+
+@section('content')
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
@@ -36,12 +38,23 @@
                     <td class="text-center">{{ format_date_time($exam->date) }}</td>
                     <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_start_date) }}</td>
                     <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_end_date) }}</td>
-                    <td class="text-center" data-user_exam_id="{{ $exam->user_exam_id }}">
+                    <td class="text-center">
                         @if($exam->user_exam_id != null && $exam->booking_end_date >= now())
-                            <img id="delete" src="{{ asset('icons/delete.svg') }}" alt="delete" class="cursor-pointer" />
+                            <form action="{{ route('student.exams.delete', ['id' => $exam->user_exam_id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="icon-button">
+                                    <img src="{{ asset('icons/delete.svg') }}" alt="delete" />
+                                </button>
+                            </form>
                         @else
                             @if($exam->booking_start_date <= now() && $exam->booking_end_date >= now())
-                                <img id="book" src="{{ asset('icons/calendar.svg') }}" alt="book" class="cursor-pointer"/>
+                                <form action="{{ route('student.exams.book', ['id' => $exam->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="icon-button">
+                                        <img src="{{ asset('icons/calendar.svg') }}" alt="book" />
+                                    </button>
+                                </form>
                             @endif
                         @endif
                     </td>

@@ -6,7 +6,6 @@ use App\Models\UserExam;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -46,7 +45,7 @@ class StudentController extends Controller
             ->orderBy('exams.date')
             ->get();
 
-        return view('student/dashboard', [
+        return view('student.dashboard', [
             'courses' => $courses,
             'exams' => $exams
         ]);
@@ -70,7 +69,7 @@ class StudentController extends Controller
             ->orderBy('courses.semester')
             ->get();
 
-        return view('student/career', [
+        return view('student.career', [
             'courses' => $courses
         ]);
     }
@@ -96,45 +95,37 @@ class StudentController extends Controller
             })
             ->get();
 
-
-        return view('student/exams', [
+        return view('student.exams', [
             'exams' => $exams
         ]);
     }
 
-    public function bookExam(Request $request, $id) {
+    public function bookExam(Request $request, $id): Renderable
+    {
         $userExam = new UserExam();
         $userExam->user_id = auth()->user()->id;
         $userExam->exam_id = $id;
-        $saved = $userExam->save();
+        $userExam->save();
 
-        if ($saved) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Exam booked successfully',
-                'user_exam_id' => $userExam->id
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error booking exam'
-            ]);
-        }
+        return $this->exams();
     }
 
-    public function deleteExamBooking(Request $request, $id) {
+    public function deleteExamBooking(Request $request, $id): Renderable
+    {
         $userExam = UserExam::find($id);
-        $deleted = $userExam->delete();
-        if ($deleted) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Exam booking deleted successfully'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error deleting exam booking'
-            ]);
-        }
+        $userExam->delete();
+
+        return $this->exams();
+    }
+
+    public function course($id): Renderable {
+        $course = DB::table('courses')
+            ->select('courses.*')
+            ->where('courses.id', '=', $id)
+            ->first();
+
+        return view('student.course', [
+            'course' => $course,
+        ]);
     }
 }

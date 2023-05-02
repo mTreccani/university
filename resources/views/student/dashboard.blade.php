@@ -13,7 +13,8 @@
         <div class="swiper-wrapper">
             @foreach($courses as $course)
                 <div class="swiper-slide">
-                    <div class="exam-card">
+                    <a href="{{ route('student.course', ['id' => $course->id]) }}">
+                        <div class="exam-card">
                         <div class="exam-card-header">
                             {{ $course->name }}
                         </div>
@@ -32,6 +33,7 @@
                         </div>
                         <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
                     </div>
+                    </a>
                 </div>
             @endforeach
         </div>
