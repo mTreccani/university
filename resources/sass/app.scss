@@ -8,12 +8,15 @@
 @import 'views/login';
 @import 'views/_student_dashboard.scss';
 
+@import "typography";
+
 // Components
 @import "components/swiper";
 @import "components/navbar";
 @import "components/table";
 @import "components/button";
-
+@import "components/select";
+@import "components/breadcrumb";
 
 html, body {
     padding: 0;
@@ -23,25 +26,12 @@ html, body {
     overflow: hidden;
 }
 
-label {
-    font-size: 0.7rem;
-    font-weight: 300;
-}
-
-.text-lg {
-    font-size: 1.25rem;
-}
-
-.text-sm {
-    font-size: 0.85rem;
-}
-
 .cursor-pointer {
     cursor: pointer;
 }
-
 
 a {
     color: $primary;
     text-decoration: none;
 }
+

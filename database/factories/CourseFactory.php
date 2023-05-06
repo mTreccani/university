@@ -28,9 +28,9 @@ class CourseFactory extends Factory
         $year = now()->year;
         return [
             'name' => fake()->jobTitle(),
-            'formative_objectives' => fake()->paragraph(),
-            'prerequisites' => fake()->paragraph(),
-            'course_schedule' => fake()->paragraph(),
+            'formative_objectives' => fake()->paragraph(20),
+            'prerequisites' => fake()->paragraph(10),
+            'course_schedule' => fake()->paragraph(30),
             'year' => fake()->randomElement([$year-1, $year, $year+1]),
             'semester' => fake()->randomElement([1, 2]),
             'credits' => fake()->randomElement([6, 9, 12]),

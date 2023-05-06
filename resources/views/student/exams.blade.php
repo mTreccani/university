@@ -12,7 +12,7 @@
         </ol>
     </nav>
 
-    <x-section_title backRoute="{{ route('student.dashboard') }}">
+    <x-section_title :backRoute="route('student.dashboard')">
         {{ __('Lista esami') }}
     </x-section_title>
 @endsection

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Course;
 use App\Models\Exam;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,6 +29,7 @@ class ExamFactory extends Factory
 
         $courses = Course::all();
         $courseId = fake()->unique()->randomElement($courses)->id;
+        $userId = User::where('role', 'teacher')->get()->random()->id;
 
         return [
             'course_id' => $courseId,
@@ -37,6 +39,8 @@ class ExamFactory extends Factory
             'booking_start_date' => fake()->dateTimeBetween('-1 month', '+1 month'),
             'booking_end_date' => fake()->dateTimeBetween('+1 month', '+2 month'),
             'room' => fake()->text(5),
+            'created_by' => $userId,
+            'updated_by' => $userId,
         ];
     }
 }

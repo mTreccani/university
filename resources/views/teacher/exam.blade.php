@@ -1,28 +1,79 @@
-@extends('layouts.app', ['showNavbar' => true, 'showSidebar' => true])
+@php
+    include(app_path('Helpers/helpers.php'));
+@endphp
+
+@extends('layouts.app', ['showNavbar' => true])
+
+@section('sticky-top')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('teacher.dashboard') }}">{{ __('Home') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @if(isset($exam))
+                    Modifica esame
+                @else
+                    Nuovo esame
+                @endif
+            </li>
+        </ol>
+    </nav>
+
+    <x-section_title :backRoute="route('teacher.dashboard')">
+        @if(isset($exam))
+            Modifica esame
+        @else
+            Nuovo esame
+        @endif
+    </x-section_title>
+@endsection
 
 @section('content')
-    @include(
-        'components.section_title',
-        ['title' => 'Esame', 'link' => null, 'linkTitle' => null]
-    )
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <form>
-        <div class="row mt-4">
-            <div class="col-6">
-                <label for="exam">{{ __('Exam') }}</label>
-                <select id="exam" class="form-control @error('exam') is-invalid @enderror" name="exam" required autofocus>
-                    <option value="1">Programmazione web e servizi digitali</option>
+    <form method="POST" action="{{ isset($exam) ? '/exam/edit/'.$exam->id : route('teacher.exam.create') }}">
+        @csrf
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <label for="course">Corso*</label>
+                <select id="course"
+                        class="form-control @error('course') is-invalid @enderror"
+                        name="course"
+                        required
+                        autofocus
+                >
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}"
+                            {{ ($exam->course_id ?? null) == $course->id ? 'selected' : ''  }}
+                        >
+                            {{ $course->name }}
+                        </option>
+                    @endforeach
                 </select>
 
-                @error('exam')
+                @error('course')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
-            <div class="col-6">
-                <label for="description">{{ __('Description') }}</label>
-                <input id="description" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" required autocomplete="description">
+            <div class="col-md-6 col-12">
+                <label for="description">Descrizione*</label>
+                <input id="description"
+                       class="form-control @error('description') is-invalid @enderror"
+                       name="description"
+                       value="{{ $exam->description ?? old('description') }}"
+                       required
+                       autocomplete="description"
+                       maxlength="255"
+                />
 
                 @error('description')
                 <span class="invalid-feedback" role="alert">
@@ -31,20 +82,51 @@
                 @enderror
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-6">
-                <label for="room">{{ __('Room') }}</label>
-                <input id="room" class="form-control @error('room') is-invalid @enderror" name="room" value="{{ old('room') }}" required autocomplete="room">
+        <div class="row mt-md-3">
+            <div class="col-md-6 col-12">
+                <label for="start_date">Inizio prenotazioni*</label>
+                <input id="start_date"
+                       type="date"
+                       class="form-control @error('start_date') is-invalid @enderror"
+                       name="start_date"
+                       value="{{ $exam->booking_start_date ?? old('start_date') }}"
+                       required
+                       min="{{ tomorrow() }}"
+               />
 
-                @error('room')
+                @error('start_date')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
-            <div class="col-6">
-                <label for="date">{{ __('Date') }}</label>
-                <input id="date" type="datetime-local" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') }}" required autocomplete="date">
+            <div class="col-md-6 col-12">
+                <label for="end_date">Fine prenotazioni*</label>
+                <input id="end_date"
+                       type="date"
+                       class="form-control @error('end_date') is-invalid @enderror"
+                       name="end_date"
+                       value="{{ $exam->booking_end_date ?? old('end_date') }}"
+                       required
+                />
+
+                @error('end_date')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+        </div>
+        <div class="row mt-md-3">
+            <div class="col-md-4 col-12">
+                <label for="date">Data*</label>
+                <input id="date"
+                       type="datetime-local"
+                       class="form-control @error('date') is-invalid @enderror"
+                       name="date"
+                       value="{{ $exam->date ?? old('date') }}"
+                       required
+                />
 
                 @error('date')
                 <span class="invalid-feedback" role="alert">
@@ -52,31 +134,67 @@
                 </span>
                 @enderror
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-6">
-                <label for="start">{{ __('Start date') }}</label>
-                <input id="start" type="date" class="form-control @error('start') is-invalid @enderror" name="start" value="{{ old('start') }}" required autocomplete="start">
+            <div class="col-md-4 col-12">
+                <label for="room">Aula</label>
+                <input id="room"
+                       class="form-control @error('room') is-invalid @enderror"
+                       name="room"
+                       value="{{ $exam->room ?? old('room') }}"
+                       autocomplete="room"
+                       maxlength="255"
+                />
 
-                @error('start')
+                @error('room')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
-            <div class="col-6">
-                <label for="end">{{ __('End date') }}</label>
-                <input id="end" type="date" class="form-control @error('end') is-invalid @enderror" name="end" value="{{ old('end') }}" required autocomplete="end">
+            <div class="col-md-4 col-12">
+                <label for="duration">Durata</label>
+                <input id="duration"
+                       type="time"
+                       min="1"
+                       class="form-control @error('duration') is-invalid @enderror"
+                       name="duration"
+                       value="{{ $exam->duration ?? old('duration') }}"
+                       autocomplete="duration"
+                />
 
-                @error('end')
+                @error('duration')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-5 float-end">
-            {{ __('Create') }}
+        <button type="submit" class="btn btn-primary mt-5 mb-2 float-end">
+            @if(isset($exam))
+                Modifica esame
+            @else
+                Crea esame
+            @endif
         </button>
     </form>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDate = document.getElementById("start_date");
+        const endDate = document.getElementById("end_date");
+        const date = document.getElementById("date");
+
+        startDate.addEventListener("change", function() {
+            const minDate = new Date(startDate.value);
+            minDate.setDate(minDate.getDate() + 1);
+            endDate.min = minDate.toISOString().slice(0, 10);
+        });
+
+        endDate.addEventListener("change", function() {
+            const minDate = new Date(endDate.value);
+            minDate.setDate(minDate.getDate() + 1);
+            date.min = minDate.toISOString().slice(0, 16);
+        });
+    });
+</script>

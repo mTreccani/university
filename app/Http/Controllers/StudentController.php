@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserExam;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +15,7 @@ class StudentController extends Controller
         $this->middleware('is_student');
     }
 
-    public function index(): Renderable {
+    public function goToDashboard(): Renderable {
         $doneCourses = DB::table('courses')
             ->select('courses.id')
             ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
@@ -51,7 +52,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function career(): Renderable {
+    public function goToCareer(): Renderable {
         $coursesGrades = DB::table('exams')
             ->select('exams.course_id', 'user_exams.grade')
             ->join('user_exams', 'exams.id', '=', 'user_exams.exam_id')
@@ -74,7 +75,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function exams(): Renderable {
+    public function goToExams(): Renderable {
         $exams = DB::table('exams')
             ->select('exams.*', 'c.name as course_name', 'ue.id as user_exam_id')
             ->join('courses as c', 'c.id', '=', 'exams.course_id')
@@ -83,15 +84,15 @@ class StudentController extends Controller
                 $join->on('exams.id', '=', 'ue.exam_id')
                     ->where(function ($query) {
                         $query->whereNull('ue.user_id')
-                            ->orWhere('ue.user_id', '=', 1);
+                            ->orWhere('ue.user_id', '=', auth()->user()->id);
                     });
             })
-            ->where('uc.user_id', '=', 1)
+            ->where('uc.user_id', '=', auth()->user()->id)
             ->whereNotIn('exams.id', function ($query) {
                 $query->select('exam_id')
                     ->from('user_exams')
                     ->where('grade', '>', 17)
-                    ->where('user_id', '=', 1);
+                    ->where('user_id', '=', auth()->user()->id);
             })
             ->get();
 
@@ -100,25 +101,25 @@ class StudentController extends Controller
         ]);
     }
 
-    public function bookExam(Request $request, $id): Renderable
+    public function bookExam(Request $request, $id): RedirectResponse
     {
         $userExam = new UserExam();
         $userExam->user_id = auth()->user()->id;
         $userExam->exam_id = $id;
         $userExam->save();
 
-        return $this->exams();
+        return redirect()->route('student.exams');
     }
 
-    public function deleteExamBooking(Request $request, $id): Renderable
+    public function deleteExamBooking(Request $request, $id): RedirectResponse
     {
         $userExam = UserExam::find($id);
         $userExam->delete();
 
-        return $this->exams();
+        return redirect()->route('student.exams');
     }
 
-    public function course($id): Renderable {
+    public function goToCourse($id): Renderable {
         $course = DB::table('courses')
             ->select('courses.*')
             ->where('courses.id', '=', $id)

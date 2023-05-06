@@ -19,15 +19,15 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['login'=>true, 'logout'=>true]);
 
 Route::controller(StudentController::class)->prefix('student')->group(function () {
-    Route::get('/', 'index')->name('student.dashboard');
-    Route::get('/career', 'career')->name('student.career');
-    Route::get('/exams', 'exams')->name('student.exams');
-    Route::post('/exams/{id}', 'bookExam')->name('student.exams.book');
-    Route::delete('/exams/{id}', 'deleteExamBooking')->name('student.exams.delete');
-    Route::get('/courses/{id}', 'course')->name('student.course');
+    Route::get('/', 'goToDashboard')->name('student.dashboard');
+    Route::get('/career', 'goToCareer')->name('student.career');
+    Route::get('/exams', 'goToExams')->name('student.exams');
+    Route::get('/courses/{id}', 'goToCourse')->name('student.course');
 });
 
-Route::controller(TeacherController::class)->prefix('teacher}')->group(function () {
-    Route::get('/', 'index')->name('teacher.dashboard');
-    Route::get('/exam', 'exam')->name('teacher.exam');
+Route::controller(TeacherController::class)->prefix('teacher')->group(function () {
+    Route::get('/', 'goToDashboard')->name('teacher.dashboard');
+    Route::get('/exam', 'goToCreateExam')->name('teacher.exam');
+    Route::get('/exam/{id}', 'goToEditExam')->name('teacher.exam.edit');
+    Route::get('/courses/{id}', 'goToCourse')->name('teacher.course');
 });

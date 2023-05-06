@@ -16,13 +16,17 @@ return new class extends Migration
             $table->string("description");
             $table->unsignedBigInteger("course_id");
             $table->dateTime("date");
-            $table->time("duration", 0);
+            $table->time("duration", 0)->nullable();
             $table->date("booking_start_date");
             $table->date("booking_end_date");
-            $table->string("room");
+            $table->string("room")->nullable();
+            $table->unsignedBigInteger("created_by");
+            $table->unsignedBigInteger("updated_by")->nullable();
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

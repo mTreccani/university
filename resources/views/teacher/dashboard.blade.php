@@ -1,39 +1,41 @@
-@extends('layouts.app', ['showNavbar' => true, 'showSidebar' => true])
+@php
+    include(app_path('Helpers/helpers.php'));
+@endphp
+
+@extends('layouts.app', ['showNavbar' => true])
 
 @section('content')
-    @include(
-        'components.section_title',
-        ['title' => 'Insegnamenti', 'link' => null, 'linkTitle' => null]
-    )
+    <x-section_title>
+        {{ __('I miei insegnamenti') }}
+    </x-section_title>
 
     <div class="swiper mb-5 mt-4">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="exam-card">
-                    <div class="exam-card-header">
-                        Programmazione web e servizi digitali
-                    </div>
-                    <hr />
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="fw-light text-sm me-1">Anno:</span>
-                        <div class="text-lg text-primary fw-bold">2022/2023</div>
-                    </div>
-                    <div class="d-flex flex-row align-items-center">
-                        <span class="fw-light text-sm me-1">Semestre:</span>
-                        <div class="text-lg text-primary fw-bold">2</div>
-                    </div>
-                    <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
+            @foreach($courses as $course)
+                <div class="swiper-slide">
+                    <a href="{{ route('teacher.course', ['id' => $course->id]) }}">
+                        <div class="exam-card">
+                            <div class="exam-card-header">
+                                {{ $course->name }}
+                            </div>
+                            <hr />
+                            <div class="d-flex flex-row align-items-center">
+                                <span class="fw-light text-sm me-1">Anno:</span>
+                                <div class="text-lg text-primary fw-bold">{{ $course->year }}</div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <span class="fw-light text-sm me-1">Semestre:</span>
+                                <div class="text-lg text-primary fw-bold">{{ $course->semester }}</div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <span class="fw-light text-sm me-1">Crediti:</span>
+                                <div class="text-lg text-primary fw-bold">{{ $course->credits }}</div>
+                            </div>
+                            <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
+                        </div>
+                    </a>
                 </div>
-            </div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-            <div class="swiper-slide"><div class="exam-card"></div></div>
-
+            @endforeach
         </div>
         <!-- If we need pagination -->
         <div class="swiper-pagination"></div>
@@ -44,10 +46,9 @@
 
     </div>
 
-    @include(
-        'components.section_title',
-        ['title' => 'Appelli', 'link' => route('teacher.exam', 'A'), 'linkTitle' => 'Crea appello']
-    )
+    <x-section_title :link="route('teacher.exam')" :linkTitle="__('Crea esame')">
+        {{ __('I miei esami') }}
+    </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
@@ -55,20 +56,27 @@
             <th>{{ __('Attività') }}</th>
             <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
             <th class="text-center">{{ __('Data') }}</th>
-            <th class="d-none d-md-table-cell text-center">{{ __('Inizio iscrizioni') }}</th>
-            <th class="d-none d-md-table-cell text-center">{{ __('Fine iscrizioni') }}</th>
+            <th class="text-center">{{ __('Aula') }}</th>
+            <th class="d-none d-md-table-cell text-center">{{ __('Durata') }}</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Programmazione web e servizi digitali</td>
-            <td class="d-none d-md-table-cell">Prova di Laboratorio di Progr. Web</td>
-            <td class="text-center">15/06/2023</td>
-            <td class="d-none d-md-table-cell text-center">15/06/2023</td>
-            <td class="d-none d-md-table-cell text-center">15/06/2023</td>
-            <td class="text-center"><img class="cursor-pointer" src="{{ asset('icons/delete.svg') }}" onclick="console.log('click')" /></td>
-        </tr>
+        @foreach($exams as $exam)
+            <tr>
+                <td>{{ $exam->course_name }}</td>
+                <td class="d-none d-md-table-cell">{{ $exam->description }}</td>
+                <td class="text-center">{{ format_date_time($exam->date) }}</td>
+                <td class="text-center">{{ $exam->room }}</td>
+                <td class="d-none d-md-table-cell text-center">{{ format_time($exam->duration) }}</td>
+                <td class="text-center">
+                    <a href="/teacher/exam/{{ $exam->id }}">
+                        <img src="{{ asset('icons/edit.svg') }}" alt="edit" />
+                    </a>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
+
 @endsection

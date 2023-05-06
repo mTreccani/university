@@ -8,22 +8,11 @@
         </ol>
     </nav>
 
-    <x-section_title backRoute="{{ route('student.dashboard') }}">
+    <x-section_title :backRoute="route('student.dashboard')">
         {{ $course->name }}
     </x-section_title>
 @endsection
 
-{{--FIXME: UI IS MISSING--}}
 @section('content')
-    {{ $course->formative_objectives }}
-    <br><br>
-    {{ $course->prerequisites }}
-    <br><br>
-    {{ $course->course_schedule }}
-    <br><br>
-    {{ $course->year }}
-    <br><br>
-    {{ $course->semester }}
-    <br><br>
-    {{ $course->credits }}
+    <x-course_body :course="$course"></x-course_body>
 @endsection

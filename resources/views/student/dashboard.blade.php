@@ -5,7 +5,7 @@
 @extends('layouts.app', ['showNavbar' => true])
 
 @section('content')
-    <x-section_title link="{{ route('student.career') }}" linkTitle="{{ __('La mia carriera') }}">
+    <x-section_title :link="route('student.career')" :linkTitle="__('La mia carriera')">
         {{ __('I miei corsi') }}
     </x-section_title>
 
@@ -46,7 +46,7 @@
 
     </div>
 
-    <x-section_title link="{{ route('student.exams') }}" linkTitle="{{ __('Lista esami') }}">
+    <x-section_title :link="route('student.exams')" :linkTitle="__('Lista esami')">
         {{ __('Le mie prenotazioni') }}
     </x-section_title>
 

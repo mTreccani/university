@@ -8,7 +8,7 @@
         </ol>
     </nav>
 
-    <x-section_title backRoute="{{ route('student.dashboard') }}">
+    <x-section_title :backRoute="route('student.dashboard')">
         {{ __('La mia carriera') }}
     </x-section_title>
 @endsection
