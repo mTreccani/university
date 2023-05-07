@@ -40,7 +40,7 @@
                     <td class="d-none d-md-table-cell text-center">{{ format_date($exam->booking_end_date) }}</td>
                     <td class="text-center">
                         @if($exam->user_exam_id != null && $exam->booking_end_date >= now())
-                            <form action="{{ route('student.exams.delete', ['id' => $exam->user_exam_id]) }}" method="POST">
+                            <form action="{{ '/student/exams/'.$exam->user_exam_id }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="icon-button">
@@ -49,7 +49,7 @@
                             </form>
                         @else
                             @if($exam->booking_start_date <= now() && $exam->booking_end_date >= now())
-                                <form action="{{ route('student.exams.book', ['id' => $exam->id]) }}" method="POST">
+                                <form action="{{ '/student/exams/'.$exam->id }}" method="POST">
                                     @csrf
                                     <button type="submit" class="icon-button">
                                         <img src="{{ asset('icons/calendar.svg') }}" alt="book" />

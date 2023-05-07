@@ -2,7 +2,7 @@
     include(app_path('Helpers/helpers.php'));
 @endphp
 
-@extends('layouts.app', ['showNavbar' => true])
+@extends('layouts.app', ['showNavbar' => true, 'scripts' => ['resources/js/teacher/exam.js']])
 
 @section('sticky-top')
     <nav aria-label="breadcrumb">
@@ -38,7 +38,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ isset($exam) ? '/exam/edit/'.$exam->id : route('teacher.exam.create') }}">
+    <form method="POST" action="{{ isset($exam) ? '/teacher/exam/'.$exam->id : '/teacher/exam' }}">
         @csrf
         <div class="row">
             <div class="col-md-6 col-12">
@@ -181,20 +181,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const startDate = document.getElementById("start_date");
-        const endDate = document.getElementById("end_date");
-        const date = document.getElementById("date");
 
-        startDate.addEventListener("change", function() {
-            const minDate = new Date(startDate.value);
-            minDate.setDate(minDate.getDate() + 1);
-            endDate.min = minDate.toISOString().slice(0, 10);
-        });
-
-        endDate.addEventListener("change", function() {
-            const minDate = new Date(endDate.value);
-            minDate.setDate(minDate.getDate() + 1);
-            date.min = minDate.toISOString().slice(0, 16);
-        });
     });
 </script>

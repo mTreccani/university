@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exam;
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,12 +28,15 @@ class TeacherController extends Controller
         $courses = DB::table('courses')
             ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
             ->where('user_courses.user_id', '=', auth()->user()->id)
+            ->orderBy('courses.year')
+            ->orderBy('courses.semester')
             ->get();
 
         $exams = DB::table('exams')
             ->select('exams.*', 'courses.name as course_name')
             ->join('courses', 'exams.course_id', '=', 'courses.id')
             ->where('exams.created_by', '=', auth()->user()->id)
+            ->orderBy('exams.date')
             ->get();
 
         return view('teacher.dashboard', [
@@ -66,6 +70,8 @@ class TeacherController extends Controller
         return DB::table('courses')
             ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
             ->where('user_courses.user_id', '=', auth()->user()->id)
+            ->orderBy('courses.year')
+            ->orderBy('courses.semester')
             ->get();
     }
 
@@ -115,6 +121,26 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function goToExamGrades($id): Renderable {
+        $users = DB::table('users')
+            ->select('users.*')
+            ->join('user_exams', 'users.id', '=', 'user_exams.user_id')
+            ->orderBy('user_exams.created_at')
+            ->get();
+
+        $exam = DB::table('exams')
+            ->select('exams.*', 'courses.name as course_name')
+            ->join('courses', 'exams.course_id', '=', 'courses.id')
+            ->where('exams.id', '=', $id)
+            ->first();
+
+        return view('teacher.grades', [
+            'users' => $users,
+            'exam' => $exam,
+        ]);
+
+    }
+
     private function validateExamRequest(Request $request): \Illuminate\Validation\Validator
     {
         return Validator::make($request->all(), [
@@ -143,7 +169,6 @@ class TeacherController extends Controller
         $exam->room = $request->input('room');
         $exam->duration = $request->input('duration');
         $exam->save();
-
         return redirect()->route('teacher.dashboard');
     }
 }

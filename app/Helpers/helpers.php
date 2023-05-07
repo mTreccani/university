@@ -1,8 +1,8 @@
 <?php
 
-    use Carbon\Carbon;
+use Carbon\Carbon;
 
-    function format_date($date): string
+function format_date($date): string
     {
         if (!isset($date)) {
             return '';
@@ -31,4 +31,8 @@
         return Carbon::now()->addDay()->format('Y-m-d');
     }
 
+    function isBeforeOrEqualNow($date): bool
+    {
+        return Carbon::parse($date)->gte(Carbon::now());
+    }
 

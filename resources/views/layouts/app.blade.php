@@ -1,4 +1,4 @@
-@props(['showNavbar' => false])
+@props(['showNavbar' => false, 'scripts' => []])
 
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Avenir:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/swiper.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/swiper.js', ...$scripts])
 </head>
 <body>
     <div class="h-100 w-100 d-flex flex-row">

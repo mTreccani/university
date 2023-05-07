@@ -23,11 +23,18 @@ Route::controller(StudentController::class)->prefix('student')->group(function (
     Route::get('/career', 'goToCareer')->name('student.career');
     Route::get('/exams', 'goToExams')->name('student.exams');
     Route::get('/courses/{id}', 'goToCourse')->name('student.course');
+
+    Route::post('/exams/{id}', 'bookExam');
+    Route::delete('/exams/{id}', 'deleteExamBooking');
 });
 
 Route::controller(TeacherController::class)->prefix('teacher')->group(function () {
     Route::get('/', 'goToDashboard')->name('teacher.dashboard');
     Route::get('/exam', 'goToCreateExam')->name('teacher.exam');
     Route::get('/exam/{id}', 'goToEditExam')->name('teacher.exam.edit');
+    Route::get('/exam/{id}/grades', 'goToExamGrades')->name('teacher.exam.grades');
     Route::get('/courses/{id}', 'goToCourse')->name('teacher.course');
+
+    Route::post('/exam', 'createExam');
+    Route::post('/exam/{id}', 'editExam');
 });

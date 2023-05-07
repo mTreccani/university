@@ -70,9 +70,15 @@
                 <td class="text-center">{{ $exam->room }}</td>
                 <td class="d-none d-md-table-cell text-center">{{ format_time($exam->duration) }}</td>
                 <td class="text-center">
-                    <a href="/teacher/exam/{{ $exam->id }}">
-                        <img src="{{ asset('icons/edit.svg') }}" alt="edit" />
-                    </a>
+                    @if(isBeforeOrEqualNow($exam->date))
+                        <a href="/teacher/exam/{{ $exam->id }}">
+                            <img src="{{ asset('icons/edit.svg') }}" alt="edit" />
+                        </a>
+                    @else
+                        <a href="/teacher/exam/{{ $exam->id }}/grades">
+                            <img src="{{ asset('icons/check.svg') }}" alt="check" />
+                        </a>
+                    @endif
                 </td>
             </tr>
         @endforeach
