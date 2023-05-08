@@ -36,5 +36,6 @@ Route::controller(TeacherController::class)->prefix('teacher')->group(function (
     Route::get('/courses/{id}', 'goToCourse')->name('teacher.course');
 
     Route::post('/exam', 'createExam');
-    Route::post('/exam/{id}', 'editExam');
+    Route::put('/exam/{id}', 'editExam');
+    Route::post('/exam/{id}/grades', 'insertGrades');
 });

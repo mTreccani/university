@@ -41,6 +41,7 @@ class ExamFactory extends Factory
             'room' => fake()->text(5),
             'created_by' => $userId,
             'updated_by' => $userId,
+            'registered' => false,
         ];
     }
 }

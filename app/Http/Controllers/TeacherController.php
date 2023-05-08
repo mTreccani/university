@@ -123,7 +123,7 @@ class TeacherController extends Controller
 
     public function goToExamGrades($id): Renderable {
         $users = DB::table('users')
-            ->select('users.*')
+            ->select('users.*', 'user_exams.grade')
             ->join('user_exams', 'users.id', '=', 'user_exams.user_id')
             ->orderBy('user_exams.created_at')
             ->get();
@@ -138,7 +138,15 @@ class TeacherController extends Controller
             'users' => $users,
             'exam' => $exam,
         ]);
+    }
 
+    public function insertGrades(Request $request, $id): RedirectResponse
+    {
+//        validate request and insert grades
+        $exam = Exam::find($id);
+        $exam->registered = true;
+        $exam->save();
+        return redirect()->route('teacher.dashboard');
     }
 
     private function validateExamRequest(Request $request): \Illuminate\Validation\Validator

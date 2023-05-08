@@ -1,4 +1,4 @@
-@extends('layouts.app', ['showNavbar' => true])
+@extends('layouts.app', ['showNavbar' => true, 'scripts' => ['resources/js/teacher/grades.js']])
 
 @section('sticky-top')
     <nav aria-label="breadcrumb">
@@ -16,19 +16,32 @@
 @endsection
 
 @section('content')
-{{--  TODO: Aggiungere dialog di conferma per l'inserimento dei voti e creare azione nel controller per salvarli
-            Una volta che è stato salvato non è più possibile modificare i voti --}}
-    <form>
+    <form action="/teacher/exam/{{ $exam->id }}/grades" method="POST" id="grades-form">
+        @csrf
         @foreach($users as $user)
             <div class="row mt-3">
                 <div class="col-6">
                     {{ $loop->index+1 }}. {{ $user->name }} {{ $user->surname }}
                 </div>
                 <div class="col-6">
-                    <input type="number" class="form-control" name="grade" min="0" max="30" step="1" required />
+                    <input type="number"
+                           class="form-control"
+                           name="grade[{{ $user->id }}]"
+                           min="0"
+                           max="30"
+                           step="1"
+                           required
+                           value="{{ $user->grade }}"
+                           {{ $exam->registered ? 'disabled' : '' }}
+                    />
                 </div>
             </div>
         @endforeach
-        <button type="submit" class="primary-button my-5 float-end">{{ __('Salva') }}</button>
+        <button id="confirm-grades" type="button" class="primary-button my-5 float-end">{{ __('Salva') }}</button>
     </form>
 @endsection
+
+<x-confirmation_dialog
+    title="Inserimento voti"
+    message="I voti inseriti non potranno più essere modificati. Vuoi continuare?"
+></x-confirmation_dialog>

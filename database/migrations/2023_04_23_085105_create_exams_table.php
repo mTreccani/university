@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("room")->nullable();
             $table->unsignedBigInteger("created_by");
             $table->unsignedBigInteger("updated_by")->nullable();
+            $table->boolean("registered")->default(false);
             $table->timestamps();
 
             $table->foreign('course_id')->references('id')->on('courses');

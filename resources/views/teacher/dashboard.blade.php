@@ -2,7 +2,7 @@
     include(app_path('Helpers/helpers.php'));
 @endphp
 
-@extends('layouts.app', ['showNavbar' => true])
+@extends('layouts.app', ['showNavbar' => true, 'scripts' => ['resources/js/components/swiper.js']])
 
 @section('content')
     <x-section_title>
