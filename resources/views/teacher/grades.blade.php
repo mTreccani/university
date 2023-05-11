@@ -24,20 +24,36 @@
                     {{ $loop->index+1 }}. {{ $user->name }} {{ $user->surname }}
                 </div>
                 <div class="col-6">
-                    <input type="number"
-                           class="form-control"
-                           name="grade[{{ $user->id }}]"
-                           min="0"
-                           max="30"
-                           step="1"
-                           required
-                           value="{{ $user->grade }}"
+                    <select class="form-control @error("grades.".$user->user_exam_id) is-invalid @enderror"
+                            name="grades[{{ $user->user_exam_id }}]"
+                            required
                            {{ $exam->registered ? 'disabled' : '' }}
-                    />
+                    >
+                        @foreach(range(0, 30) as $grade)
+                            <option value="{{ $grade }}"
+                                {{ ($user->grade ?? null) == $grade ? 'selected' : ''  }}
+                            >
+                                {{ $grade }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error("grades.".$user->user_exam_id)
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
             </div>
         @endforeach
-        <button id="confirm-grades" type="button" class="primary-button my-5 float-end">{{ __('Salva') }}</button>
+        @if(!$exam->registered)
+            <button
+                id="confirm-grades"
+                type="button"
+                class="primary-button my-5 float-end"
+            >
+                {{ __('Salva') }}
+            </button>
+        @endif
     </form>
 @endsection
 

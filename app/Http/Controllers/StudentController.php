@@ -55,7 +55,7 @@ class StudentController extends Controller
 
     public function goToCareer(): Renderable {
         $coursesGrades = DB::table('exams')
-            ->select('exams.course_id', 'user_exams.grade')
+            ->select('exams.course_id', 'user_exams.grade', 'exams.date')
             ->join('user_exams', 'exams.id', '=', 'user_exams.exam_id')
             ->where('user_exams.user_id', auth()->user()->id)
             ->where('user_exams.grade', '>', '17');
@@ -71,8 +71,33 @@ class StudentController extends Controller
             ->orderBy('courses.semester')
             ->get();
 
+        $doneExams = DB::table('courses')
+            ->select('courses.name', 'courses_grades.grade', 'courses_grades.credits')
+            ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
+            ->joinSub($coursesGrades, 'courses_grades', function ($join) {
+                $join->on('courses.id', '=', 'courses_grades.course_id');
+            })
+            ->where('user_courses.user_id', auth()->user()->id)
+            ->orderBy('courses_grades.date')
+            ->take(10)
+            ->get();
+
+        $average = $doneExams->avg('grade') ?? 0;
+
+        $weightedAverage = $doneExams->sum(function ($course) {
+            return $course->grade * $course->credits;
+        }) / $courses->sum('credits') ?? 0;
+
+        $totalCredits = $courses->sum('credits');
+        $doneCredits = $doneExams->sum('credits');
+
         return view('student.career', [
-            'courses' => $courses
+            'courses' => $courses,
+            'doneExams' => $doneExams,
+            'average' => $average,
+            'totalCredits' => $totalCredits,
+            'doneCredits' => $doneCredits,
+            'weightedAverage' => $weightedAverage
         ]);
     }
 
@@ -89,11 +114,13 @@ class StudentController extends Controller
                     });
             })
             ->where('uc.user_id', '=', auth()->user()->id)
-            ->whereNotIn('exams.id', function ($query) {
-                $query->select('exam_id')
-                    ->from('user_exams')
-                    ->where('grade', '>', 17)
-                    ->where('user_id', '=', auth()->user()->id);
+            ->whereNotIn('c.id', function ($query) {
+                $query->select('courses.id')
+                    ->from('courses')
+                    ->join('exams', 'exams.course_id', '=', 'courses.id')
+                    ->join('user_exams', 'user_exams.exam_id', '=', 'exams.id')
+                    ->whereNotNull('user_exams.grade')
+                    ->where('user_exams.user_id', '=', auth()->user()->id);
             })
             ->get();
 

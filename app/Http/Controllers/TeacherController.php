@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Exam;
 use App\Models\User;
+use App\Models\UserExam;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
@@ -123,7 +125,7 @@ class TeacherController extends Controller
 
     public function goToExamGrades($id): Renderable {
         $users = DB::table('users')
-            ->select('users.*', 'user_exams.grade')
+            ->select('users.*', 'user_exams.grade', 'user_exams.id as user_exam_id')
             ->join('user_exams', 'users.id', '=', 'user_exams.user_id')
             ->orderBy('user_exams.created_at')
             ->get();
@@ -142,10 +144,30 @@ class TeacherController extends Controller
 
     public function insertGrades(Request $request, $id): RedirectResponse
     {
-//        validate request and insert grades
+        $validator = Validator::make($request->all(), [
+            'grades' => 'required|array',
+            'grades.*' => 'required|numeric|min:0|max:30',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $grades = (object) $request->input('grades');
+
+        foreach ($grades as $userExamId => $grade) {
+            $user_exam = UserExam::find($userExamId);
+            $user_exam->grade = $grade;
+            $user_exam->save();
+        }
+
         $exam = Exam::find($id);
         $exam->registered = true;
         $exam->save();
+
         return redirect()->route('teacher.dashboard');
     }
 
