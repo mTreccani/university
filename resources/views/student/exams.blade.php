@@ -1,5 +1,5 @@
 @php
-    include(app_path('Helpers/helpers.php'));
+    include_once(app_path('Helpers/Helpers.php'));
 @endphp
 
 @extends('layouts.app', ['showNavbar' => true])

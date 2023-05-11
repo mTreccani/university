@@ -14,17 +14,22 @@
 @endsection
 
 @section('content')
-    <div class="my-2 d-flex flex-md-row flex-column align-items-baseline">
-        <div class="border border-primary rounded-3 p-3 text-center me-md-2 me-0 mb-2 mb-md-0 w-100">
-            <span>Media Aritmetica: </span><span class="fw-bold"> {{ $average }}</span>
+    <div class="row">
+        <div class="col-md-4 d-flex flex-column justify-content-center">
+            <div class="fw-bold text-lg mb-3 text-center">Tutti gli esami</div>
+            <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
+                <span>Media Aritmetica: </span><span class="fw-bold"> {{ round($average, 0) }}</span>
+            </div>
+            <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
+                <span>Media Ponderata: </span><span class="fw-bold"> {{ round($weightedAverage, 0) }}</span>
+            </div>
+            <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
+                <span>Crediti: </span><span class="fw-bold">{{ $doneCredits }}/{{ $totalCredits }}</span>
+            </div>
         </div>
-        <div class="border border-primary rounded-3 p-3 text-center me-md-2 me-0 mb-2 mb-md-0 w-100">
-            <span>Media Ponderata: </span><span class="fw-bold"> {{ $weightedAverage }}</span>
+        <div class="col-md-8 col-12">
+            <canvas id="last-exams"></canvas>
         </div>
-        <div class="border border-primary rounded-3 p-3 text-center me-md-2 me-0 mb-2 mb-md-0 w-100">
-            <span>Crediti: </span><span class="fw-bold">{{ $doneCredits }}/{{ $totalCredits }}</span>
-        </div>
-        <canvas id="gradesChart"></canvas>
     </div>
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
@@ -51,30 +56,65 @@
 
 @endsection
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const ctx = document.getElementById('gradesChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($doneExams) !!},
-                datasets: [{
-                    label: 'Grades',
-                    data: {!! json_encode($doneExams) !!},
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
+<script type="text/javascript">
+
+    window.onload = () => {
+        let doneExams = {{ Js::from($doneExams) }};
+        doneExams = Object.values(doneExams);
+
+        const data = {
+            labels: doneExams.map(exam => exam.name),
+            datasets: [
+                {
+                    label: 'Esami fatti',
+                    barPercentage: 0.5,
+                    backgroundColor: '#E6F0FA',
+                    borderColor: '#3C5896',
+                    borderWidth: 1,
+                    data: doneExams.map(exam => exam.grade),
+                    order: 2
+                },
+                {
+                    label: 'Andamento media',
+                    backgroundColor: '#3C5896',
+                    borderColor: '#3C5896',
+                    data: doneExams.map(exam => exam.average),
+                    type: 'line',
+                    order: 1
+                },
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
             options: {
+                maintainAspectRatio: false,
                 scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                    x: {
+                        display: false // Hide X axis labels
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Ultimi 10 esami',
+                        font: {
+                            size: 18,
+                            weight: '400'
+                        },
+                        color: '#000'
+                    },
                 }
             }
-        });
-    });
+        };
+
+        new Chart(
+            document.getElementById('last-exams'),
+            config
+        );
+    }
+
 </script>

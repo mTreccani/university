@@ -72,24 +72,27 @@ class StudentController extends Controller
             ->get();
 
         $doneExams = DB::table('courses')
-            ->select('courses.name', 'courses_grades.grade', 'courses_grades.credits')
+            ->select(DB::raw('courses.name, courses_grades.grade, courses.credits, ROUND(AVG(courses_grades.grade) OVER (ORDER BY courses_grades.date), 0) AS average'))
             ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
             ->joinSub($coursesGrades, 'courses_grades', function ($join) {
                 $join->on('courses.id', '=', 'courses_grades.course_id');
             })
             ->where('user_courses.user_id', auth()->user()->id)
             ->orderBy('courses_grades.date')
-            ->take(10)
             ->get();
 
         $average = $doneExams->avg('grade') ?? 0;
-
         $weightedAverage = $doneExams->sum(function ($course) {
             return $course->grade * $course->credits;
-        }) / $courses->sum('credits') ?? 0;
+        }) / $doneExams->sum('credits') ?? 0;
 
         $totalCredits = $courses->sum('credits');
         $doneCredits = $doneExams->sum('credits');
+
+        // if there are more than 10 courses, we only show the last 10
+        if ($doneExams->count() > 10) {
+            $doneExams = $doneExams->slice($doneExams->count() - 10, 10);
+        }
 
         return view('student.career', [
             'courses' => $courses,
@@ -97,7 +100,7 @@ class StudentController extends Controller
             'average' => $average,
             'totalCredits' => $totalCredits,
             'doneCredits' => $doneCredits,
-            'weightedAverage' => $weightedAverage
+            'weightedAverage' => $weightedAverage,
         ]);
     }
 
