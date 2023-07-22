@@ -4,7 +4,7 @@
     <div class="d-flex flex-row align-items-center mb-2">
         @if(isset($backRoute))
             <a href="{{ $backRoute }}" class="icon-button-border me-2">
-                <img src="{{ asset('icons/chevron_left.svg') }}">
+                <img src="{{ asset('icons/chevron_left.svg') }}" alt="chevron left">
             </a>
         @endif
         <h3 class="text-primary fw-bold m-0">{{ $slot ?? '' }}</h3>
@@ -12,7 +12,7 @@
     @if(isset($link) && isset($linkTitle))
         <a href="{{ $link }}" class="link-primary text-decoration-none">
             {{ $linkTitle }}
-            <img src="{{ asset('icons/chevron_right.svg') }}">
+            <img src="{{ asset('icons/chevron_right.svg') }}" alt="chevron right">
         </a>
     @endif
 </div>

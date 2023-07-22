@@ -3,28 +3,31 @@
 @section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('La mia carriera') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('home') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('career') }}</li>
         </ol>
     </nav>
 
     <x-section_title :backRoute="route('student.dashboard')">
-        {{ __('La mia carriera') }}
+        {{ __('career') }}
     </x-section_title>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-md-4 d-flex flex-column justify-content-center">
-            <div class="fw-bold text-lg mb-3 text-center">Tutti gli esami</div>
+            <div class="fw-bold text-lg mb-3 text-center">{{ __('all_exams') }}</div>
             <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
-                <span>Media Aritmetica: </span><span class="fw-bold"> {{ round($average, 0) }}</span>
+                <span>{{ __('arithmetic_average') }}: </span>
+                <span class="fw-bold"> {{ round($average, 0) }}</span>
             </div>
             <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
-                <span>Media Ponderata: </span><span class="fw-bold"> {{ round($weightedAverage, 0) }}</span>
+                <span>{{ __('weighted_average') }}: </span>
+                <span class="fw-bold"> {{ round($weightedAverage, 0) }}</span>
             </div>
             <div class="border border-primary rounded-3 p-3 text-center mb-2 w-100">
-                <span>Crediti: </span><span class="fw-bold">{{ $doneCredits }}/{{ $totalCredits }}</span>
+                <span>{{ __('credits') }}: </span>
+                <span class="fw-bold">{{ $doneCredits }}/{{ $totalCredits }}</span>
             </div>
         </div>
         <div class="col-md-8 col-12">
@@ -34,11 +37,11 @@
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
             <tr>
-                <th>{{ __('Attività') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Anno') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Semestre') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Crediti') }}</th>
-                <th class="text-center">{{ __("Voto") }}</th>
+                <th>{{ __('activity') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('year') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('semester') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('credits') }}</th>
+                <th class="text-center">{{ __("grade") }}</th>
             </tr>
         </thead>
         <tbody>
@@ -68,7 +71,7 @@
             labels: doneExams.map(exam => exam.name),
             datasets: [
                 {
-                    label: 'Esami fatti',
+                    label: "{{ __('done_exams')  }}",
                     barPercentage: 0.5,
                     backgroundColor: '#E6F0FA',
                     borderColor: '#3C5896',
@@ -77,7 +80,7 @@
                     order: 2
                 },
                 {
-                    label: 'Andamento media',
+                    label: "{{ __('average_trend') }}",
                     backgroundColor: '#3C5896',
                     borderColor: '#3C5896',
                     data: doneExams.map(exam => exam.average),
@@ -100,7 +103,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Ultimi 10 esami',
+                        text: "{{ __('last_ten_exams') }}",
                         font: {
                             size: 18,
                             weight: '400'

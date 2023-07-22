@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
+            $table->integer('year_in_progress')->nullable();
+            $table->string("language")->default("en");
             $table->rememberToken();
             $table->timestamps();
         });

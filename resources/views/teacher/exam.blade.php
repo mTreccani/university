@@ -7,12 +7,12 @@
 @section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('teacher.dashboard') }}">{{ __('Home') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('teacher.dashboard') }}">{{ __('home') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">
                 @if(isset($exam))
-                    Modifica esame
+                    {{ __('edit_exam') }}
                 @else
-                    Nuovo esame
+                    {{ __('new_exam') }}
                 @endif
             </li>
         </ol>
@@ -20,9 +20,9 @@
 
     <x-section_title :backRoute="route('teacher.dashboard')">
         @if(isset($exam))
-            Modifica esame
+            {{ __('edit_exam') }}
         @else
-            Nuovo esame
+            {{ __('new_exam') }}
         @endif
     </x-section_title>
 @endsection
@@ -39,10 +39,11 @@
     @endif
 
     <form method="POST" action="{{ isset($exam) ? '/teacher/exam/'.$exam->id : '/teacher/exam' }}">
+        @method(isset($exam) ? 'PUT' : 'POST')
         @csrf
         <div class="row">
             <div class="col-md-6 col-12">
-                <label for="course">Corso*</label>
+                <label for="course">{{ __('course') }}*</label>
                 <select id="course"
                         class="form-control @error('course') is-invalid @enderror"
                         name="course"
@@ -65,7 +66,7 @@
                 @enderror
             </div>
             <div class="col-md-6 col-12">
-                <label for="description">Descrizione*</label>
+                <label for="description">{{ __('description') }}*</label>
                 <input id="description"
                        class="form-control @error('description') is-invalid @enderror"
                        name="description"
@@ -84,7 +85,7 @@
         </div>
         <div class="row mt-md-3">
             <div class="col-md-6 col-12">
-                <label for="start_date">Inizio prenotazioni*</label>
+                <label for="start_date">{{ __('start_bookings') }}*</label>
                 <input id="start_date"
                        type="date"
                        class="form-control @error('start_date') is-invalid @enderror"
@@ -101,7 +102,7 @@
                 @enderror
             </div>
             <div class="col-md-6 col-12">
-                <label for="end_date">Fine prenotazioni*</label>
+                <label for="end_date">{{ __('end_bookings') }}*</label>
                 <input id="end_date"
                        type="date"
                        class="form-control @error('end_date') is-invalid @enderror"
@@ -119,12 +120,12 @@
         </div>
         <div class="row mt-md-3">
             <div class="col-md-4 col-12">
-                <label for="date">Data*</label>
+                <label for="date">{{ __('date') }}*</label>
                 <input id="date"
                        type="datetime-local"
                        class="form-control @error('date') is-invalid @enderror"
                        name="date"
-                       value="{{ $exam->date ?? old('date') }}"
+                       value="{{ remove_date_seconds($exam->date) ?? old('date') }}"
                        required
                 />
 
@@ -135,7 +136,7 @@
                 @enderror
             </div>
             <div class="col-md-4 col-12">
-                <label for="room">Aula</label>
+                <label for="room">{{ __('room') }}</label>
                 <input id="room"
                        class="form-control @error('room') is-invalid @enderror"
                        name="room"
@@ -151,13 +152,13 @@
                 @enderror
             </div>
             <div class="col-md-4 col-12">
-                <label for="duration">Durata</label>
+                <label for="duration">{{ __('duration') }}</label>
                 <input id="duration"
                        type="time"
                        min="1"
                        class="form-control @error('duration') is-invalid @enderror"
                        name="duration"
-                       value="{{ $exam->duration ?? old('duration') }}"
+                       value="{{ remove_time_seconds($exam->duration) ?? old('duration') }}"
                        autocomplete="duration"
                 />
 
@@ -170,17 +171,10 @@
         </div>
         <button type="submit" class="btn btn-primary mt-5 mb-2 float-end">
             @if(isset($exam))
-                Modifica esame
+                {{ __('edit_exam') }}
             @else
-                Crea esame
+                {{ __('new_exam') }}
             @endif
         </button>
     </form>
 @endsection
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-    });
-</script>

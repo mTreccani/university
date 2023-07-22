@@ -43,7 +43,7 @@ class StudentController extends Controller
             ->join('courses', 'exams.course_id', '=', 'courses.id')
             ->join('user_exams', 'exams.id', '=', 'user_exams.exam_id')
             ->where('user_exams.user_id', auth()->user()->id)
-            ->whereNull('user_exams.grade')
+            ->where('exams.registered', '=', 0)
             ->orderBy('exams.date')
             ->get();
 
@@ -82,12 +82,18 @@ class StudentController extends Controller
             ->get();
 
         $average = $doneExams->avg('grade') ?? 0;
-        $weightedAverage = $doneExams->sum(function ($course) {
-            return $course->grade * $course->credits;
-        }) / $doneExams->sum('credits') ?? 0;
+
 
         $totalCredits = $courses->sum('credits');
         $doneCredits = $doneExams->sum('credits');
+
+        $weightedAverage = 0;
+        if ($doneCredits > 0) {
+            $weightedAverage = $doneExams->sum(function ($course) {
+                return $course->grade * $course->credits;
+            }) / $doneCredits;
+        }
+
 
         // if there are more than 10 courses, we only show the last 10
         if ($doneExams->count() > 10) {

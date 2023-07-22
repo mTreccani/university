@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'surname',
         'email',
         'password',
+        'year_in_progress'
     ];
 
     /**
@@ -42,6 +44,16 @@ class User extends Authenticatable
      */
     protected $casts = [
     ];
+
+    public function courses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'user_courses');
+    }
+
+    public function exams(): BelongsToMany
+    {
+        return $this->belongsToMany(Exam::class, 'user_exams');
+    }
 
     public function isStudent(): bool
     {

@@ -3,9 +3,9 @@
 @section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('teacher.dashboard') }}">{{ __('Home') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('teacher.dashboard') }}">{{ __('home') }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-                Inserimento voti
+                {{ __('grades') }}
             </li>
         </ol>
     </nav>
@@ -51,13 +51,14 @@
                 type="button"
                 class="primary-button my-5 float-end"
             >
-                {{ __('Salva') }}
+                {{ __('save') }}
             </button>
         @endif
     </form>
 @endsection
 
 <x-confirmation_dialog
-    title="Inserimento voti"
-    message="I voti inseriti non potranno più essere modificati. Vuoi continuare?"
+    title="{{ __('grades') }}"
+    message="{{ __('confirm_grades') }}"
 ></x-confirmation_dialog>
+<!-- I voti inseriti non potranno più essere modificati. Vuoi continuare? -->

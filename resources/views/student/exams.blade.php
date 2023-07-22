@@ -7,13 +7,13 @@
 @section('sticky-top')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('Home') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ __('Lista esami') }}</li>
+            <li class="breadcrumb-item"><a href="{{ route('student.dashboard') }}">{{ __('home') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('exams') }}</li>
         </ol>
     </nav>
 
     <x-section_title :backRoute="route('student.dashboard')">
-        {{ __('Lista esami') }}
+        {{ __('exams') }}
     </x-section_title>
 @endsection
 
@@ -22,11 +22,11 @@
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
             <tr>
-                <th>{{ __('Attività') }}</th>
-                <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
-                <th class="text-center">{{ __('Data') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Inizio iscrizioni') }}</th>
-                <th class="d-none d-md-table-cell text-center">{{ __('Fine iscrizioni') }}</th>
+                <th>{{ __('activity') }}</th>
+                <th class="d-none d-md-table-cell">{{ __('description') }}</th>
+                <th class="text-center">{{ __('date') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('start_bookings') }}</th>
+                <th class="d-none d-md-table-cell text-center">{{ __('end_bookings') }}</th>
                 <th></th>
             </tr>
         </thead>

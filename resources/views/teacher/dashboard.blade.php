@@ -6,7 +6,7 @@
 
 @section('content')
     <x-section_title>
-        {{ __('I miei insegnamenti') }}
+        {{ __('teachings') }}
     </x-section_title>
 
     <div class="swiper mb-5 mt-4">
@@ -20,15 +20,15 @@
                             </div>
                             <hr />
                             <div class="d-flex flex-row align-items-center">
-                                <span class="fw-light text-sm me-1">Anno:</span>
+                                <span class="fw-light text-sm me-1">{{ __('year') }}:</span>
                                 <div class="text-lg text-primary fw-bold">{{ $course->year }}</div>
                             </div>
                             <div class="d-flex flex-row align-items-center">
-                                <span class="fw-light text-sm me-1">Semestre:</span>
+                                <span class="fw-light text-sm me-1">{{ __('semester') }}:</span>
                                 <div class="text-lg text-primary fw-bold">{{ $course->semester }}</div>
                             </div>
                             <div class="d-flex flex-row align-items-center">
-                                <span class="fw-light text-sm me-1">Crediti:</span>
+                                <span class="fw-light text-sm me-1">{{ __('credits') }}:</span>
                                 <div class="text-lg text-primary fw-bold">{{ $course->credits }}</div>
                             </div>
                             <img src="{{ asset('icons/chevron_right.svg') }}" class="exam-card-icon" />
@@ -46,18 +46,18 @@
 
     </div>
 
-    <x-section_title :link="route('teacher.exam')" :linkTitle="__('Crea esame')">
-        {{ __('I miei esami') }}
+    <x-section_title :link="route('teacher.exam')" :linkTitle="__('create_exam')">
+        {{ __('exams') }}
     </x-section_title>
 
     <table class="table border-primary mt-4 table-bordered">
         <thead class="bg-secondary text-primary fw-bold">
         <tr>
-            <th>{{ __('Attività') }}</th>
-            <th class="d-none d-md-table-cell">{{ __('Descrizione') }}</th>
-            <th class="text-center">{{ __('Data') }}</th>
-            <th class="text-center">{{ __('Aula') }}</th>
-            <th class="d-none d-md-table-cell text-center">{{ __('Durata') }}</th>
+            <th>{{ __('activity') }}</th>
+            <th class="d-none d-md-table-cell">{{ __('description') }}</th>
+            <th class="text-center">{{ __('date') }}</th>
+            <th class="text-center">{{ __('room') }}</th>
+            <th class="d-none d-md-table-cell text-center">{{ __('duration') }}</th>
             <th></th>
         </tr>
         </thead>
@@ -70,7 +70,7 @@
                 <td class="text-center">{{ $exam->room }}</td>
                 <td class="d-none d-md-table-cell text-center">{{ format_time($exam->duration) }}</td>
                 <td class="text-center">
-                    @if(isBeforeOrEqualNow($exam->date))
+                    @if(!$exam->registered)
                         <a href="/teacher/exam/{{ $exam->id }}">
                             <img src="{{ asset('icons/edit.svg') }}" alt="edit" />
                         </a>
