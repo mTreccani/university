@@ -70,9 +70,13 @@
                 <td class="text-center">{{ $exam->room }}</td>
                 <td class="d-none d-md-table-cell text-center">{{ format_time($exam->duration) }}</td>
                 <td class="text-center">
-                    @if(!$exam->registered)
+                    @if(!$exam->registered && !isBeforeOrEqualNow($exam->date))
                         <a href="/teacher/exam/{{ $exam->id }}">
                             <img src="{{ asset('icons/edit.svg') }}" alt="edit" />
+                        </a>
+                    @elseif($exam->registered && isBeforeOrEqualNow($exam->date))
+                        <a href="/teacher/exam/{{ $exam->id }}/grades">
+                            <img src="{{ asset('icons/eye.svg') }}" alt="grades" />
                         </a>
                     @else
                         <a href="/teacher/exam/{{ $exam->id }}/grades">

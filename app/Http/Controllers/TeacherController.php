@@ -127,6 +127,7 @@ class TeacherController extends Controller
         $users = DB::table('users')
             ->select('users.*', 'user_exams.grade', 'user_exams.id as user_exam_id')
             ->join('user_exams', 'users.id', '=', 'user_exams.user_id')
+            ->where('user_exams.exam_id', '=', $id)
             ->orderBy('user_exams.created_at')
             ->get();
 
