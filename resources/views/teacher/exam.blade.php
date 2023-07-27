@@ -125,7 +125,7 @@
                        type="datetime-local"
                        class="form-control @error('date') is-invalid @enderror"
                        name="date"
-                       value="{{ remove_date_seconds($exam->date) ?? old('date') }}"
+                       value="{{ $exam->date ?? old('date') }}"
                        required
                 />
 
@@ -158,7 +158,7 @@
                        min="1"
                        class="form-control @error('duration') is-invalid @enderror"
                        name="duration"
-                       value="{{ remove_time_seconds($exam->duration) ?? old('duration') }}"
+                       value="{{ $exam->duration ?? old('duration') }}"
                        autocomplete="duration"
                 />
 
