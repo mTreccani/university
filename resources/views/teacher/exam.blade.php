@@ -158,7 +158,7 @@
                        min="1"
                        class="form-control @error('duration') is-invalid @enderror"
                        name="duration"
-                       value="{{ $exam->duration ?? old('duration') }}"
+                       value="{{ isset($exam) ? format_time($exam->duration) : old('duration') }}"
                        autocomplete="duration"
                 />
 
